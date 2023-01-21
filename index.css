@@ -1,5 +1,69 @@
 body{
     display:flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    align-items: center;
+}
+table{
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+#event-form{
+    width: 20%;
+    padding: 20px 0;
+    background-color: #0e9982;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2em;
+    
+}
+#event-form:hover{
+    background-color: #11d3b2;
+    color: black;
+}
+#events-list{
+    width: 100%;
+    border: 1.5px solid #e6e2d3;
+    
+}
+tr{
+    text-align: center;
+    width: 100%;
+    background-color: rgba(133, 102, 35, 0.664);
+    
+}
+th{
+    padding: 10px 0;
+}
+
+td{
+    padding: 10px 0;
+}
+.event__btn-edit,.event__btn-delete,.event__btn-confirm,.event__btn-cancel{
+    width: 50px;
+    height: 25px;
+    border: 1.5px solid #e6e2d3;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+
+.event__btn-edit,.event__btn-confirm{
+    background-color: #0e9982;
+}
+.event__btn-edit:hover,.event__btn-confirm:hover{
+    background-color: #11d0b0;
+}
+.event__btn-delete,.event__btn-cancel{
+    background-color: #c94c4c;
+    
+}
+.event__btn-delete:hover,.event__btn-cancel:hover{
+    background-color: #ee5353;
+    
+}
+svg{
+    width: 60px;
+    height:25px;
+    pointer-events: none;
+    
 }

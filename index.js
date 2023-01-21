@@ -79,8 +79,6 @@ class EventModel {
   removeEvent(id) {
     return API.removeEvent(id).then((removedEvent) => {
       this.#events = this.#events.filter((event) => event.id !== +id);
-        console.log(id);
-        console.log(this.#events)
       return removedEvent;
     });
   }
@@ -135,10 +133,12 @@ class EventView {
         eventActions.classList.add("event__actions");
     
         const editEvent = document.createElement("button");
-        editEvent.textContent = "CONFIRM";
+        editEvent.innerHTML = `<svg focusable="false" aria-hidden="true" viewBox="-9 5 70 20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21,20V8.414a1,1,0,0,0-.293-.707L16.293,3.293A1,1,0,0,0,15.586,3H4A1,1,0,0,0,3,4V20a1,1,0,0,0,1,1H20A1,1,0,0,0,21,20ZM9,8h4a1,1,0,0,1,0,2H9A1,1,0,0,1,9,8Zm7,11H8V15a1,1,0,0,1,1-1h6a1,1,0,0,1,1,1Z"/></svg>`;
         editEvent.classList.add("event__btn-confirm");
         const deleteEvent = document.createElement("button");
-        deleteEvent.textContent = "CANCEL";
+        deleteEvent.innerHTML = `<svg focusable="false" aria-hidden="true" viewBox="-6 5 80 30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.587 16.001l6.096 6.096c0.396 0.396 0.396 1.039 0 1.435l-2.151 2.151c-0.396 0.396-1.038 0.396-1.435 0l-6.097-6.096-6.097 6.096c-0.396 0.396-1.038 0.396-1.434 0l-2.152-2.151c-0.396-0.396-0.396-1.038 0-1.435l6.097-6.096-6.097-6.097c-0.396-0.396-0.396-1.039 0-1.435l2.153-2.151c0.396-0.396 1.038-0.396 1.434 0l6.096 6.097 6.097-6.097c0.396-0.396 1.038-0.396 1.435 0l2.151 2.152c0.396 0.396 0.396 1.038 0 1.435l-6.096 6.096z"></path></svg>`;
         deleteEvent.classList.add("event__btn-cancel");
 
         eventActions.append(editEvent, deleteEvent);
@@ -146,6 +146,43 @@ class EventView {
     
         eventElem.append(eventTaskElem, eventDateStart, eventDateEnd, eventActions);
         this.eventList.append(eventElem);
+      }
+      updateForm(domID) {
+        const elem = this.eventList.querySelector(`#${domID}`);
+        elem.classList.add("edit");
+        let name = elem.querySelector(`.event__name`).textContent;
+        const textInp = document.createElement("input");
+        textInp.setAttribute("type", "text");
+        textInp.setAttribute("value", `${name}`);
+        elem.querySelector(`.event__name`).textContent = '';
+        elem.querySelector(`.event__name`).append(textInp) ;
+
+        let start_date = elem.querySelector(`.event__start`).textContent;
+        const startInp = document.createElement("input");
+        startInp.setAttribute("type", "date");
+        startInp.setAttribute("value", `${start_date}`);
+        elem.querySelector(`.event__start`).textContent = '';
+        elem.querySelector(`.event__start`).append(startInp) ;
+
+        let end_date = elem.querySelector(`.event__end`).textContent;
+        const endInp = document.createElement("input");
+        endInp.setAttribute("type", "date");
+        endInp.setAttribute("value", `${end_date}`);
+        elem.querySelector(`.event__end`).textContent = '';
+        elem.querySelector(`.event__end`).append(endInp) ;
+
+        const edit_action = elem.querySelector(`.event__actions`);
+        edit_action.textContent = '';
+        const editEvent = document.createElement("button");
+        editEvent.innerHTML = `<svg focusable="false" aria-hidden="true" viewBox="-9 5 70 20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21,20V8.414a1,1,0,0,0-.293-.707L16.293,3.293A1,1,0,0,0,15.586,3H4A1,1,0,0,0,3,4V20a1,1,0,0,0,1,1H20A1,1,0,0,0,21,20ZM9,8h4a1,1,0,0,1,0,2H9A1,1,0,0,1,9,8Zm7,11H8V15a1,1,0,0,1,1-1h6a1,1,0,0,1,1,1Z"/></svg>`;
+        editEvent.classList.add("event__btn-confirm");
+        const deleteEvent = document.createElement("button");
+        deleteEvent.innerHTML = `<svg focusable="false" aria-hidden="true" viewBox="-6 5 80 30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.587 16.001l6.096 6.096c0.396 0.396 0.396 1.039 0 1.435l-2.151 2.151c-0.396 0.396-1.038 0.396-1.435 0l-6.097-6.096-6.097 6.096c-0.396 0.396-1.038 0.396-1.434 0l-2.152-2.151c-0.396-0.396-0.396-1.038 0-1.435l6.097-6.096-6.097-6.097c-0.396-0.396-0.396-1.039 0-1.435l2.153-2.151c0.396-0.396 1.038-0.396 1.434 0l6.096 6.097 6.097-6.097c0.396-0.396 1.038-0.396 1.435 0l2.151 2.152c0.396 0.396 0.396 1.038 0 1.435l-6.096 6.096z"></path></svg>`;
+        deleteEvent.classList.add("event__btn-cancel");
+
+        edit_action.append(editEvent, deleteEvent);
       }
     
       appendEvent(event) {
@@ -169,10 +206,13 @@ class EventView {
         eventActions.classList.add("event__actions");
     
         const editEvent = document.createElement("button");
-        editEvent.textContent = "EDIT";
+        editEvent.innerHTML = `<svg focusable="false" aria-hidden="true" viewBox="-9 5 70 20" data-testid="EditIcon" aria-label="fontSize small"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 
+        17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path></svg>`;
         editEvent.classList.add("event__btn-edit");
         const deleteEvent = document.createElement("button");
-        deleteEvent.textContent = "DELETE";
+        deleteEvent.innerHTML = `<svg focusable="false" aria-hidden="true" viewBox="-9 5 70 20" 
+        data-testid="DeleteIcon" aria-label="fontSize small"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 
+        0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path></svg>`;
         deleteEvent.classList.add("event__btn-delete");
 
         eventActions.append(editEvent, deleteEvent);
@@ -228,23 +268,25 @@ class EventController {
       setUpFormEvent() {
         document.querySelector(".event__btn-confirm").addEventListener("click", (e) => {
           e.preventDefault();
-          const name = document.querySelector(".event-input").querySelector(".event__name").querySelector("input").value;
-          const dateStart = document.querySelector(".event-input").querySelector(".event__start").querySelector("input").value;
-          const dateEnd = document.querySelector(".event-input").querySelector(".event__end").querySelector("input").value;
+          const elem = document.querySelector(".event-input");
+          const name = elem.querySelector(".event__name").querySelector("input").value;
+          const dateStart = elem.querySelector(".event__start").querySelector("input").value;
+          const dateEnd = elem.querySelector(".event__end").querySelector("input").value;
           if(name =='' || dateStart=='' || dateEnd==''){
             alert('Input is not valid!')
           }else{
             this.model
-                .addEvent({
-                    eventName: name,
-                    startDate: dateStart,
-                    endDate: dateEnd,
-                })
-                .then((data) => {
-                  this.view.appendEvent(data);
-                  document.querySelector(".event-input").remove();
-                  this.view.eventForm.classList = "";
-                });
+            .addEvent({
+                eventName: name,
+                startDate: dateStart,
+                endDate: dateEnd,
+            })
+            .then((data) => {
+              this.view.appendEvent(data);
+              document.querySelector(".event-input").remove();
+              this.view.eventForm.classList = "";
+            });
+            
           }
         });
       }
@@ -261,18 +303,49 @@ class EventController {
         this.view.eventList.addEventListener("click", (e) => {
             if (e.target.classList.contains("event__btn-edit")) {
                 const domID = e.target.parentNode.parentNode.getAttribute("id");
-                const id = domID.substring(5);
-                this.model.fetchEvents().then(events=>{
-                    console.log(events)
-                  })
-                this.model.editEvent(id, obj).then((data) => {
-                    this.view.editEventElem(domID , obj)
-                  });
+                console.log(domID)
+            const id = domID.substring(5);
+               this.view.updateForm(domID);
+               this.setUpEditEvent(id);
+               this.cancelEditEvent();
             }
       
       
           });
       }
+      setUpEditEvent(id) {
+        document.querySelector(".edit").querySelector(".event__btn-confirm").addEventListener("click", (e) => {
+          e.preventDefault();
+          const elem = document.querySelector(".edit");
+          const name = elem.querySelector(".event__name").querySelector("input").value;
+          const dateStart = elem.querySelector(".event__start").querySelector("input").value;
+          const dateEnd = elem.querySelector(".event__end").querySelector("input").value;
+          if(name =='' || dateStart=='' || dateEnd==''){
+            alert('Input is not valid!')
+          }else{
+            console.log("ok")
+            this.model
+            .editEvent(id, {
+                eventName: name,
+                startDate: dateStart,
+                endDate: dateEnd,
+            })
+            .then((data) => {
+                window.location.reload();
+            });
+            
+          }
+        });
+      }
+
+      cancelEditEvent() {
+        document.querySelector(".edit").querySelector(".event__btn-cancel").addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.reload();
+
+        });
+      }
+
     
       setUpRemoveEvent() {
         this.view.eventList.addEventListener("click", (e) => {
